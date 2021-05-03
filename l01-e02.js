@@ -1,6 +1,6 @@
 'use strict';
 
-/* 
+/*
 DB STRUCTURE
 CREATE TABLE tasks (
     id          INTEGER  PRIMARY KEY,
@@ -47,7 +47,7 @@ function Task(id, description, isUrgent = false, isPrivate = true, deadline = ''
 }
 
 function TaskList() {
- 
+
   const db = new sqlite.Database('tasks.db', (err) => { if (err) throw err; });
 
   this.getAll = () => {
@@ -57,10 +57,10 @@ function TaskList() {
         if(err)
           reject(err);
         else {
-          const tasks = rows.map(record => new Task(record.id, record.description, record.urgent == 1, record.private == 1, record.deadline));
+          const tasks = rows.map(record => new Task(record.id, record.description, record.important == 1, record.private == 1, record.deadline));
           resolve(tasks);
         }
-      });            
+      });
     });
   };
 
@@ -71,10 +71,10 @@ function TaskList() {
         if(err)
           reject(err);
         else {
-          const tasks = rows.map(record => new Task(record.id, record.description, record.urgent == 1, record.private == 1, record.deadline));
+          const tasks = rows.map(record => new Task(record.id, record.description, record.important == 1, record.private == 1, record.deadline));
           resolve(tasks);
         }
-      });    
+      });
     });
   };
 
@@ -85,10 +85,10 @@ function TaskList() {
         if(err)
           reject(err);
         else {
-          const tasks = rows.map(record => new Task(record.id, record.description, record.urgent == 1, record.private == 1, record.deadline));
+          const tasks = rows.map(record => new Task(record.id, record.description, record.important == 1, record.private == 1, record.deadline));
           resolve(tasks);
         }
-      });    
+      });
     });
   };
 }
@@ -99,7 +99,7 @@ async function main(data) {
   try {
 
     const taskList = new TaskList();
-    // get all the tasks 
+    // get all the tasks
     console.log("****** All the tasks in the database: ******");
     const tasks = await taskList.getAll();
     tasks.forEach( (task) => console.log(task.toString()) );
@@ -122,8 +122,7 @@ async function main(data) {
     console.error(error);
     return;
   }
-  
+
 }
 
 main()
-
